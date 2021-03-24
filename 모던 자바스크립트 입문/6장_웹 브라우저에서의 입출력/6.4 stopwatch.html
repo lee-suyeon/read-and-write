@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>스톱워치</title>
+    <script>
+      window.onload = function () {
+        const startButton = document.getElementById("start");
+        const stopButton = document.getElementById("stop");
+        const display = document.getElementById("display");
+        
+        let startTime, timer;
+
+        const stop = () => {
+          clearInterval(timer);
+          startButton.onclick = start; 
+        }
+
+        const start = () => {
+          startButton.onclick = null;
+          stopButton.onclick = stop;
+
+          startTime = new Date();
+          // 0.01초마다 시간 갱신
+          timer = setInterval(() => {
+            let now = new Date();
+
+            // 요소 객체 display의 innerHTML 프로퍼티에 경과 시간을 대입해서 id 속성 값이
+            // display인 HTML 요소의 내용을 갱신한다. 
+            display.innerHTML = ((now - startTime)/1000).toFixed(2)
+          }, 10)
+        }
+        startButton.onclick = start;
+      };
+    </script>
+  </head>
+  <body>
+    <p id="display">0.00</p>
+    <input id="start" type="button" value="start">
+    <input id="stop" type="button" value="stop">
+  </body>
+</html>

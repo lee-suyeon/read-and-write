@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>BMI</title>
+    <script>
+      window.onload = function () {
+        const height = document.getElementById("height");
+        const weight = document.getElementById("weight");
+        const bmi = document.getElementById("bmi");
+        const button = document.getElementById("button");
+
+        const getbmi = () => {
+          let h = parseFloat(height.value) / 100;
+          let w = parseFloat(weight.value);
+
+          bmi.innerHTML = (w/h/h).toFixed(1);
+        }
+
+        button.onclick = getbmi;
+      };
+    </script>
+  </head>
+  <body>
+    <p>키 : <input id="height" type="number"> cm</p>
+    <p>몸무게 : <input id="weight" type="number"> kg</p>
+    <p>당신의 체질량지수는 <output id="bmi">0</output> 입니다.</p>
+    <input type="button" id="button" value="계산">
+  </body>
+</html>
