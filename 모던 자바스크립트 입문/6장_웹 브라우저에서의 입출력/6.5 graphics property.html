@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>graphics</title>
+    <script>
+      window.onload = function () {
+        // canvas 요소 가져오기
+        const canvas = document.getElementById("mycanvas");
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = "tomato";
+        ctx.fillStyle = "powderblue";
+        ctx.strokeRect(10, 10, 100, 80);
+        ctx.fillRect(150, 10, 100, 80);
+
+        // 선 두께
+        ctx.lineWidth = 2; 
+        ctx.strokeRect(10, 120, 100, 80);
+        ctx.lineWidth = 10;
+        ctx.strokeRect(150, 120, 100, 80);
+        
+        // 종단점
+        ctx.beginPath();
+        ctx.moveTo(300, 50);
+        ctx.lineCap = "round";
+        ctx.lineTo(400, 50);
+        ctx.stroke();
+      };
+    </script>
+  </head>
+  <body>
+    <canvas id="mycanvas" width="800" height="600"></canvas>
+  </body>
+</html>
