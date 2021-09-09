@@ -35,25 +35,7 @@ function statement(invoice, plays) {
 
   for(let perf of invoice.performances) {
     const play = plays[perf.playID];
-    let thisAmount = 0;
-
-    switch(play.type) {
-      case "tragedy": // 비극
-        thisAmount = 40000;
-        if(perf.audience > 30) {
-          thisAmount += 1000 * (perf.audience - 30);
-        }
-        break;
-      case "comedy": // 희극
-        thisAmount = 30000;
-        if(perf.audience > 20) {
-          thisAmount += 10000 + 500 * (perf.audience - 20);
-        }
-        thisAmount += 300 * perf.audience;
-        break;
-      default:
-        throw new Error(`알 수 없는 장르: ${play.type}`)
-    }
+    let thisAmount = amountFor(perf, play);
 
     // 포인트를 적립한다. 
     volumeCredits += Math.max(perf.audience - 30, 0);
@@ -79,9 +61,24 @@ function statement(invoice, plays) {
 // 총액: $1,730.00
 // 적립 포인트: 47점
 
-// 함수 쪼개기
-// 1. 먼저 전체 동작을 각각의 부분으로 나눌 수 있는 지점을 찾는다. 
-// switch 문
-// 유효 범위를 벗어나는 변수, 새 함수에서는 곧바로 사용할 수 없는 변수가 있는지 확인한다. 
-
-
+function amountFor(perf, play) {
+  let thisAmount = 0;
+  
+  switch(play.type) {
+    case "tragedy": // 비극
+      thisAmount = 40000;
+      if(perf.audience > 30) {
+        thisAmount += 1000 * (perf.audience - 30);
+      }
+      break;
+    case "comedy": // 희극
+      thisAmount = 30000;
+      if(perf.audience > 20) {
+        thisAmount += 10000 + 500 * (perf.audience - 20);
+      }
+      thisAmount += 300 * perf.audience;
+      break;
+    default:
+      throw new Error(`알 수 없는 장르: ${play.type}`)
+  }
+}
