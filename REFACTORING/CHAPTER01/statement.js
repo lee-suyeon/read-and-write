@@ -34,7 +34,7 @@ function statement(invoice, plays) {
       minimumFractionDigits: 2 }).format;
 
   for(let perf of invoice.performances) {
-    const play = plays[perf.playID];
+    const play = playFor(perf); // 우변을 함수로 추출 
     let thisAmount = amountFor(perf, play);
 
     // 포인트를 적립한다. 
@@ -52,14 +52,6 @@ function statement(invoice, plays) {
   result += `적립 포인트: ${volumeCredits}점 \n`;
   return result;
 }
-
-// result
-// 청구 내역 (고객명: BigCo)
-// Hamlet: $650.00 (55석)
-// As You Like It: $475.00 (35석)
-// Othello: $500.00 (40석)
-// 총액: $1,730.00
-// 적립 포인트: 47점
 
 function amountFor(aPerformance, play) { // 명확한 이름으로 변경
   let result = 0;
@@ -83,3 +75,17 @@ function amountFor(aPerformance, play) { // 명확한 이름으로 변경
   }
   return result; // 함수의 반환값 
 }
+
+// 임시 변수를 질의 함수로 바꾸기
+function playFor(aPerformance) {
+  return plays[aPerformance.playID];
+}
+
+statement(invoice, plays)
+// result
+// 청구 내역 (고객명: BigCo)
+// Hamlet: $650.00 (55석)
+// As You Like It: $475.00 (35석)
+// Othello: $500.00 (40석)
+// 총액: $1,730.00
+// 적립 포인트: 47점
