@@ -34,17 +34,18 @@ function statement(invoice, plays) {
       minimumFractionDigits: 2 }).format;
 
   for(let perf of invoice.performances) {
-    const play = playFor(perf); // 우변을 함수로 추출 
-    let thisAmount = amountFor(perf, play);
+    // const play = playFor(perf); // 우변을 함수로 추출 
+    let thisAmount = amountFor(perf, playFor(perf)); // 변수 인라인
 
     // 포인트를 적립한다. 
     volumeCredits += Math.max(perf.audience - 30, 0);
 
     // 희극 관객 5명마다 추가 포인트를 제공한다. 
-    if("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5);
+    if("comedy" === playFor(perf).type) // 변수인라인
+      volumeCredits += Math.floor(perf.audience / 5);
 
     // 청구 내역을 출력한다. 
-    result += `${play.name}: ${format(thisAmount/100)} (${perf.audience}석)\n`;
+    result += `${playFor(perf).name}: ${format(thisAmount/100)} (${perf.audience}석)\n`; // 변수 인라인
     totalAmount += thisAmount;
   }
 
