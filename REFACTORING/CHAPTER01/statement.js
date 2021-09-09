@@ -57,7 +57,7 @@ function statement(invoice, plays) {
 function amountFor(aPerformance, play) { // 명확한 이름으로 변경
   let result = 0;
 
-  switch(play.type) {
+  switch(playFor(aPerformance).type) { // play를 playFor() 호출로 변경
     case "tragedy": // 비극
       result = 40000;
       if(aPerformance.audience > 30) {
@@ -72,7 +72,7 @@ function amountFor(aPerformance, play) { // 명확한 이름으로 변경
       result += 300 * aPerformance.audience;
       break;
     default:
-      throw new Error(`알 수 없는 장르: ${play.type}`)
+      throw new Error(`알 수 없는 장르: ${playFor(aPerformance).type}`); // play를 playFor() 호출로 변경
   }
   return result; // 함수의 반환값 
 }
