@@ -27,14 +27,13 @@ let invoice =
 // 공연료 청구서를 출력하는 코드
 function statement(invoice, plays) {
   let totalAmount = 0;
-  let volumeCredits = 0; // 포인트
+  let volumeCredits = 0;
   let result = `청구 내역 (고객명: ${invoice.customer})`
   const format = new Intl.NumberFormat("en-US", 
     { style: "currency", currency: "USD",
       minimumFractionDigits: 2 }).format;
 
   for(let perf of invoice.performances) {
-    let thisAmount = amountFor(perf); // playFor(perf) 매개변수 제거
 
     // 포인트를 적립한다. 
     volumeCredits += Math.max(perf.audience - 30, 0);
@@ -44,10 +43,9 @@ function statement(invoice, plays) {
       volumeCredits += Math.floor(perf.audience / 5);
 
     // 청구 내역을 출력한다. 
-    result += `${playFor(perf).name}: ${format(thisAmount/100)} (${perf.audience}석)\n`;
-    totalAmount += thisAmount;
+    result += `${playFor(perf).name}: ${format(amountFor(perf)/100)} (${perf.audience}석)\n`; // thisAmount 변수를 인라인
+    totalAmount += amountFor(perf); // thisAmount 변수를 인라인
   }
-
   result += `총액: ${format(totalAmount/100)}\n`;
   result += `적립 포인트: ${volumeCredits}점 \n`;
   return result;
