@@ -29,22 +29,15 @@ function statement(invoice, plays) {
   let totalAmount = 0;
   let volumeCredits = 0;
   let result = `청구 내역 (고객명: ${invoice.customer})`
-  const format = new Intl.NumberFormat("en-US", 
-    { style: "currency", currency: "USD",
-      minimumFractionDigits: 2 }).format;
 
   for(let perf of invoice.performances) {
     volumeCredits += volumeCreditsFor(perf); // 추출한 함수를 이용해 값을 누적
 
-    // 희극 관객 5명마다 추가 포인트를 제공한다. 
-    if("comedy" === playFor(perf).type)
-      volumeCredits += Math.floor(perf.audience / 5);
-
     // 청구 내역을 출력한다. 
-    result += `${playFor(perf).name}: ${format(amountFor(perf)/100)} (${perf.audience}석)\n`; // thisAmount 변수를 인라인
+    result += `${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n`; // thisAmount 변수를 인라인
     totalAmount += amountFor(perf); // thisAmount 변수를 인라인
   }
-  result += `총액: ${format(totalAmount/100)}\n`;
+  result += `총액: ${usd(totalAmount/100)}\n`;
   result += `적립 포인트: ${volumeCredits}점 \n`;
   return result;
 }
@@ -79,11 +72,17 @@ function playFor(aPerformance) {
 // volumeCredits의 복제본을 초기화한 뒤 계산 결과를 반환
 function volumeCreditsFor(aPerformance) {
   let result = 0;
-  result += Math.max(aPerformance.audienc - 30, 0);
+  result += Math.max(aPerformance.audience - 30, 0);
 
   if("commedy" === playFor(aPerformance).type)
   result += Math.floor(aPerformance.audience / 5);
   return result;
+}
+
+function usd(aNumber) {
+  return new Intl.NumberFormat("en-US", 
+                      { style: "currency", currency: "USD",
+                        minimumFractionDigits: 2 }).format(aNumber/100);
 }
 
 statement(invoice, plays)
