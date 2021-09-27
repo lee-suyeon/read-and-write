@@ -32,8 +32,7 @@ function statement(invoice, plays) {
     // 청구 내역을 출력한다. 
     result += `${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n`; // thisAmount 변수를 인라인
   }
-  let totalAmount = temporary(); // 함수 추출 & 임시 이름 부여
-  result += `총액: ${usd(totalAmount/100)}\n`;
+  result += `총액: ${usd(totalAmount())}\n`; // 변수 인라인 후 함수 이름 바꾸기
   result += `적립 포인트: ${totalVolumeCredits()}점 \n`;
   return result;
 }
@@ -82,19 +81,19 @@ function usd(aNumber) {
 }
 
 function totalVolumeCredits() {
-  let volumeCredits = 0; // 변수 선언(초기화)을 반복문 앞으로 이동
+  let result = 0; // 변수 선언(초기화)을 반복문 앞으로 이동
   for(let perf of invoice.performances) { // 값 누적 로직을 별도 for 문으로 분리
-    volumeCredits += volumeCreditsFor(perf);
+    result += volumeCreditsFor(perf);
   }
-  return volumeCredits;
+  return result;
 }
 
-function temporary() {
-  let totalAmount = 0;
+function totalAmount() { // 함수 이름 변경
+  let result = 0;
   for(let perf of invoice.performances) {
-    totalAmount += amountFor(perf);
+    result += amountFor(perf);
   }
-  return totalAmount;
+  return result;
 }
 
 statement(invoice, plays)
