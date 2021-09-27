@@ -31,12 +31,15 @@ function statement(invoice, plays) {
   let result = `청구 내역 (고객명: ${invoice.customer})`
 
   for(let perf of invoice.performances) {
-    volumeCredits += volumeCreditsFor(perf); // 추출한 함수를 이용해 값을 누적
-
     // 청구 내역을 출력한다. 
     result += `${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n`; // thisAmount 변수를 인라인
     totalAmount += amountFor(perf); // thisAmount 변수를 인라인
   }
+
+  for(let perf of invoice.performances) { // 값 누적 로직을 별도 for 문으로 분리
+    volumeCredits += volumeCreditsFor(perf);
+  }
+
   result += `총액: ${usd(totalAmount/100)}\n`;
   result += `적립 포인트: ${volumeCredits}점 \n`;
   return result;
