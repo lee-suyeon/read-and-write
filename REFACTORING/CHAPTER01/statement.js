@@ -26,13 +26,13 @@ let invoice =
 
 // 공연료 청구서를 출력하는 코드
 function statement(invoice, plays) {
-  let totalAmount = 0;
   let result = `청구 내역 (고객명: ${invoice.customer})`
 
   for(let perf of invoice.performances) {
     // 청구 내역을 출력한다. 
     result += `${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n`; // thisAmount 변수를 인라인
   }
+  let totalAmount = 0;
   for(let perf of invoice.performances) {
     totalAmount += amountFor(perf);
   }
