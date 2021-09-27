@@ -32,12 +32,9 @@ function statement(invoice, plays) {
     // 청구 내역을 출력한다. 
     result += `${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n`; // thisAmount 변수를 인라인
   }
-  let totalAmount = 0;
-  for(let perf of invoice.performances) {
-    totalAmount += amountFor(perf);
-  }
+  let totalAmount = temporary(); // 함수 추출 & 임시 이름 부여
   result += `총액: ${usd(totalAmount/100)}\n`;
-  result += `적립 포인트: ${totalVolumeCredits()}점 \n`; // 변수 인라인
+  result += `적립 포인트: ${totalVolumeCredits()}점 \n`;
   return result;
 }
 
@@ -90,6 +87,14 @@ function totalVolumeCredits() {
     volumeCredits += volumeCreditsFor(perf);
   }
   return volumeCredits;
+}
+
+function temporary() {
+  let totalAmount = 0;
+  for(let perf of invoice.performances) {
+    totalAmount += amountFor(perf);
+  }
+  return totalAmount;
 }
 
 statement(invoice, plays)
