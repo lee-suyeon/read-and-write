@@ -34,9 +34,8 @@ function statement(invoice, plays) {
     result += `${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n`; // thisAmount 변수를 인라인
     totalAmount += amountFor(perf); // thisAmount 변수를 인라인
   }
-  let volumeCredits = totalVolumeCredits(); // 값 계산 로직을 함수로 추출
   result += `총액: ${usd(totalAmount/100)}\n`;
-  result += `적립 포인트: ${volumeCredits}점 \n`;
+  result += `적립 포인트: ${totalVolumeCredits()}점 \n`; // 변수 인라인
   return result;
 }
 
