@@ -27,7 +27,6 @@ let invoice =
 // 공연료 청구서를 출력하는 코드
 function statement(invoice, plays) {
   let totalAmount = 0;
-  let volumeCredits = 0;
   let result = `청구 내역 (고객명: ${invoice.customer})`
 
   for(let perf of invoice.performances) {
@@ -35,7 +34,7 @@ function statement(invoice, plays) {
     result += `${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n`; // thisAmount 변수를 인라인
     totalAmount += amountFor(perf); // thisAmount 변수를 인라인
   }
-
+  let volumeCredits = 0; // 변수 선언(초기화)을 반복문 앞으로 이동
   for(let perf of invoice.performances) { // 값 누적 로직을 별도 for 문으로 분리
     volumeCredits += volumeCreditsFor(perf);
   }
