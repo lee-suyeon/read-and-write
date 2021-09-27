@@ -32,7 +32,9 @@ function statement(invoice, plays) {
   for(let perf of invoice.performances) {
     // 청구 내역을 출력한다. 
     result += `${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n`; // thisAmount 변수를 인라인
-    totalAmount += amountFor(perf); // thisAmount 변수를 인라인
+  }
+  for(let perf of invoice.performances) {
+    totalAmount += amountFor(perf);
   }
   result += `총액: ${usd(totalAmount/100)}\n`;
   result += `적립 포인트: ${totalVolumeCredits()}점 \n`; // 변수 인라인
