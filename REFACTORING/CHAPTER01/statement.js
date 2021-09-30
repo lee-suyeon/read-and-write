@@ -25,11 +25,12 @@ let invoice =
 
 
 // 공연료 청구서를 출력하는 코드
-function statement(invoice, plays) { // 본문 전체를 별도 함수로 추출
-  return renderPlainText(invoice, plays)
+function statement(invoice, plays) { 
+  const statementData = {};
+  return renderPlainText(statementData, invoice, plays); // 중간 데이터 구조를 인수로 전달
 }
 
-function renderPlainText(invoice, plays) { // 본문 전체를 별도 함수로 추출
+function renderPlainText(data, invoice, plays) { // 중간 데이터 구조를 인수로 전달
   let result = `청구 내역 (고객명: ${invoice.customer})`
   for(let perf of invoice.performances) {
     result += `${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n`;
