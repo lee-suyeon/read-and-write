@@ -32,24 +32,15 @@ function statement(invoice, plays) {
   return renderPlainText(statementData, plays);
 
   function enrichPerformance(aPerformance) {
-    const result = Object.assign({}, aPerformance); // 얕은 복사
-    result.play = playFor(result); // 중간 데이터에 연극 정보를 저장
+    const result = Object.assign({}, aPerformance); 
+    result.play = playFor(result); 
+    result.amountFor = amountFor(result);
     return result;
   }
 
-  function playFor(aPerformance) { // renderPlainText()의 중첩 함수였던 playFor()를 statement()로 옮김
+  function playFor(aPerformance) { 
     return plays[aPerformance.playID];
   }
-}
-
-function renderPlainText(data, plays) { 
-  let result = `청구 내역 (고객명: ${data.customer})`
-  for(let perf of data.performances) {
-    result += `${perf.play.name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n`;
-  }
-  result += `총액: ${usd(totalAmount())}\n`; 
-  result += `적립 포인트: ${totalVolumeCredits()}점 \n`;
-  return result;
 
   function amountFor(aPerformance) { 
     let result = 0;
@@ -73,6 +64,16 @@ function renderPlainText(data, plays) {
     }
     return result; // 함수의 반환값 
   }
+}
+
+function renderPlainText(data, plays) { 
+  let result = `청구 내역 (고객명: ${data.customer})`
+  for(let perf of data.performances) {
+    result += `${perf.play.name}: ${usd(perf.amount/100)} (${perf.audience}석)\n`;
+  }
+  result += `총액: ${usd(totalAmount())}\n`; 
+  result += `적립 포인트: ${totalVolumeCredits()}점 \n`;
+  return result;
 
   // volumeCredits의 복제본을 초기화한 뒤 계산 결과를 반환
   function volumeCreditsFor(aPerformance) {
@@ -101,7 +102,7 @@ function renderPlainText(data, plays) {
   function totalAmount() { // 함수 이름 변경
     let result = 0;
     for(let perf of data.performances) {
-      result += amountFor(perf);
+      result += perf.amount;
     }
     return result;
   }
