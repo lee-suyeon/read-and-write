@@ -26,12 +26,16 @@ let invoice =
 
 // 공연료 청구서를 출력하는 코드
 function statement(invoice, plays) { 
+  return renderPlainText(createStatementData(invoice, plays));
+}
+
+function createStatementData() { // 중간데이터 생성을 전담
   const statementData = {};
   statementData.customer = invoice.customer; 
   statementData.performances = invoice.performances.map(enrichPerformance);
   statementData.totalAmount = totalAmount(statementData);
   statementData.totalVolumeCredits = totalVolumeCredits(statementData);
-  return renderPlainText(statementData, plays);
+  return statementData;
 
   function enrichPerformance(aPerformance) {
     const result = Object.assign({}, aPerformance); 
