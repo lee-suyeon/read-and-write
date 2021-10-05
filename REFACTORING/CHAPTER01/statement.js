@@ -34,7 +34,8 @@ function statement(invoice, plays) {
   function enrichPerformance(aPerformance) {
     const result = Object.assign({}, aPerformance); 
     result.play = playFor(result); 
-    result.amountFor = amountFor(result);
+    result.amount = amountFor(result);
+    result.volumeCredits = volumeCreditsFor(result);
     return result;
   }
 
@@ -64,18 +65,7 @@ function statement(invoice, plays) {
     }
     return result; // 함수의 반환값 
   }
-}
 
-function renderPlainText(data, plays) { 
-  let result = `청구 내역 (고객명: ${data.customer})`
-  for(let perf of data.performances) {
-    result += `${perf.play.name}: ${usd(perf.amount/100)} (${perf.audience}석)\n`;
-  }
-  result += `총액: ${usd(totalAmount())}\n`; 
-  result += `적립 포인트: ${totalVolumeCredits()}점 \n`;
-  return result;
-
-  // volumeCredits의 복제본을 초기화한 뒤 계산 결과를 반환
   function volumeCreditsFor(aPerformance) {
     let result = 0;
     result += Math.max(aPerformance.audience - 30, 0);
@@ -84,6 +74,17 @@ function renderPlainText(data, plays) {
     result += Math.floor(aPerformance.audience / 5);
     return result;
   }
+}
+
+function renderPlainText(data, plays) { 
+  let result = `청구 내역 (고객명: ${data.customer})`
+  for(let perf of data.performances) {
+    result += `${perf.play.name}: ${usd(perf.amount)} (${perf.audience}석)\n`;
+  }
+  result += `총액: ${usd(totalAmount())}\n`; 
+  result += `적립 포인트: ${totalVolumeCredits()}점 \n`;
+  console.log('result', result)
+  return result;
 
   function usd(aNumber) {
     return new Intl.NumberFormat("en-US", 
@@ -94,7 +95,7 @@ function renderPlainText(data, plays) {
   function totalVolumeCredits() {
     let result = 0; // 변수 선언(초기화)을 반복문 앞으로 이동
     for(let perf of data.performances) { // 값 누적 로직을 별도 for 문으로 분리
-      result += volumeCreditsFor(perf);
+      result += perf.volumeCredits;
     }
     return result;
   }
