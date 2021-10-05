@@ -27,12 +27,14 @@ let invoice =
 // 공연료 청구서를 출력하는 코드
 function statement(invoice, plays) { 
   const statementData = {};
-  return renderPlainText(statementData, invoice, plays); // 중간 데이터 구조를 인수로 전달
+  statementData.customer = invoice.customer; // 고객 데이터를 중간 데이터로 옮김
+  statementData.performances = invoice.performances; // 공연 정보를 중간 데이터로 옮김
+  return renderPlainText(statementData, invoice, plays); 
 }
 
-function renderPlainText(data, invoice, plays) { // 중간 데이터 구조를 인수로 전달
-  let result = `청구 내역 (고객명: ${invoice.customer})`
-  for(let perf of invoice.performances) {
+function renderPlainText(data, plays) { 
+  let result = `청구 내역 (고객명: ${data.customer})`
+  for(let perf of data.performances) {
     result += `${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n`;
   }
   result += `총액: ${usd(totalAmount())}\n`; 
@@ -84,7 +86,7 @@ function renderPlainText(data, invoice, plays) { // 중간 데이터 구조를 �
 
   function totalVolumeCredits() {
     let result = 0; // 변수 선언(초기화)을 반복문 앞으로 이동
-    for(let perf of invoice.performances) { // 값 누적 로직을 별도 for 문으로 분리
+    for(let perf of data.performances) { // 값 누적 로직을 별도 for 문으로 분리
       result += volumeCreditsFor(perf);
     }
     return result;
@@ -92,7 +94,7 @@ function renderPlainText(data, invoice, plays) { // 중간 데이터 구조를 �
 
   function totalAmount() { // 함수 이름 변경
     let result = 0;
-    for(let perf of invoice.performances) {
+    for(let perf of data.performances) {
       result += amountFor(perf);
     }
     return result;
