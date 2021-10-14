@@ -25,7 +25,20 @@ let invoice =
     ]
   }
 
-// 공연료 청구서를 출력하는 코드
+function statement(invoice, plays) {
+  return renderPlainText(createStatementData(invoice, plays));
+}
+
+function renderPlainText(data, plays) { 
+  let result = `청구 내역 (고객명: ${data.customer})`
+  for(let perf of data.performances) {
+    result += `${perf.play.name}: ${usd(perf.amount)} (${perf.audience}석)\n`;
+  }
+  result += `총액: ${usd(data.totalAmount)}\n`; 
+  result += `적립 포인트: ${data.totalVolumeCredits}점 \n`;
+  return result;
+}
+
 function htmlStatement(invoice, plays) { 
   return renderHtml(createStatementData(invoice, plays)); // 중간 데이터 생성 함수를 공유
 }
