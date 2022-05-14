@@ -104,3 +104,36 @@ Controller.ts
 
 **Static Rendering schema**  
 Browser Rendering ➡️ Wait Next Render ➡️ New Virtual Node ➡️ DOM Manipulation ➡️ Browser Rendering
+
+<br />
+
+### Component Functions
+
+**data-component**
+
+- `data-component` : component name
+- replaces the imperative invocation(명령적 호출) of view functions.
+
+<br />
+
+**registry**
+
+```javascript
+const registry = {
+  todos: todosView,
+  counter: counterView,
+  filters: filtersView,
+};
+```
+
+- key mechanism of our component-based rendering engine.
+- 이 작업을 수행하려면 모든 구성 요소가 **데이터 구성 요소 속성**의 값을 읽고 올바른 기능을 자동으로 호출하는 기본 구성 요소에서 **상속**해야 한다.
+
+<br />
+
+**renderWrapper**
+
+- takes original component and returns a new component with the same signature.
+- registry에서 data-component 속성을 가지고 있는 DOM요소를 찾는다.
+- DOM 요소를 찾으면 child component를 호출한다.
+- child component도 같은 함수로 감싸져있기 때문에 마지막 컴포넌트까지 쉽게 탐색할 수 있다.
