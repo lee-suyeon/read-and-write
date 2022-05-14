@@ -33,9 +33,9 @@
 ### Chrome Developer Tools
 
 - FPS(frames-per-second)
-  ![chrome-dev-tool-fps](./images/chrome-dev-tool-fps.png)
+  ![chrome-dev-tool-fps](../images/chrome-dev-tool-fps.png)
 - displays the amount of memory used by the GPU
-  ![fps](./images/fps.png)
+  ![fps](..//images/fps.png)
 
 ### stats.js
 
@@ -91,3 +91,16 @@ export default (targetElement, state) => {
 Controller.ts
 
 - connect view function to the real DOM
+
+<br />
+
+**rendering engine**
+
+- [window.requestAnimationFrame - mdn](https://developer.mozilla.org/ko/docs/Web/API/Window/requestAnimationFrame)
+- don't block the main thread.
+- excuted right before the next repaint is scheduled in the event loop.
+
+<br />
+
+**Static Rendering schema**  
+Browser Rendering ➡️ Wait Next Render ➡️ New Virtual Node ➡️ DOM Manipulation ➡️ Browser Rendering
