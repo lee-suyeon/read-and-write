@@ -1,4 +1,4 @@
-import { Todo } from '../common';
+import { Todo, State } from '../common';
 
 const getTodoCount = (todos: Todo[]) => {
   const notCompleted = todos.filter(todo => !todo.completed);
@@ -11,7 +11,7 @@ const getTodoCount = (todos: Todo[]) => {
   return `${length} Items left`;
 }
 
-export default (targetElement, { todos }) => {
+export default (targetElement: Node, { todos }: State) => {
   const newCounter = targetElement.cloneNode(true);
   newCounter.textContent = getTodoCount(todos);
   return newCounter;
