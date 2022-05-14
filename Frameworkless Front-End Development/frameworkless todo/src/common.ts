@@ -4,6 +4,6 @@ export interface Todo {
 }
 
 export interface State {
-  todos: string[];
+  todos: Todo[];
   currentFilter: string;
 }
