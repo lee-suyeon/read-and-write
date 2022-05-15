@@ -1,6 +1,7 @@
+import { Events, State } from '../common'
 let template: any;
 
-const createAppElement = () => {
+const getTemplate = () => {
   if(!template) {
     template = document.getElementById('todo-app');
   }
@@ -8,9 +9,21 @@ const createAppElement = () => {
   return template.content.firstElementChild.cloneNode(true)
 }
 
-export default (targetElement: HTMLElement): HTMLElement  => {
+const addEvents = (targetElements: HTMLElement, events: Events) => {
+  let newTodo = targetElements.querySelector('.new-todo') as HTMLInputElement;
+  newTodo.addEventListener('keypress', event => {
+    let target = event.target as HTMLInputElement;
+    if(event.key === 'Enter') {
+      events.addItem(target.value);
+      target.value = '';
+    }
+  })
+}
+
+export default (targetElement: HTMLElement, state: State, events: Events): HTMLElement  => {
   const newApp = targetElement.cloneNode(true) as HTMLElement;
   newApp.innerHTML = '';
-  newApp.appendChild(createAppElement());
+  newApp.appendChild(getTemplate());
+  addEvents(newApp, events)
   return newApp;
 }

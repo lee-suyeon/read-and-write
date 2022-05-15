@@ -1,5 +1,5 @@
 // Rendering a High-Order Function
-import { State } from './common';
+import { State, Events } from './common';
 
 interface RegistryType {
   [key: string]: Function;
@@ -8,8 +8,8 @@ interface RegistryType {
 const registry: RegistryType = {}
 
 const renderWrapper = (component: Function): Function => {
-  return (targetElement: Element, state: State) => {
-    const element = component(targetElement, state)
+  return (targetElement: Element, state: State, events: Events) => {
+    const element = component(targetElement, state, events)
     const childComponents = element.querySelectorAll(['[data-component]'])
     // childComponents ➡️ [ul.todo-list, span.todo-count, ul.filters]
 
@@ -20,7 +20,7 @@ const renderWrapper = (component: Function): Function => {
         if(!child) {
           return;
         } else {
-          target.replaceWith(child(target, state))
+          target.replaceWith(child(target, state, events))
         }
       })
     return element
@@ -33,12 +33,12 @@ const add = (name: string, component: Function): void => {
 }
 
 // Boot Function of Component-Based Application
-const renderRoot = (root: Element, state: State): HTMLElement => {
+const renderRoot = (root: Element, state: State, events: Events): HTMLElement => {
   const cloneComponent = (root: Element): Node => {
     return root.cloneNode(true)
   }
 
-  return renderWrapper(cloneComponent)(root, state)
+  return renderWrapper(cloneComponent)(root, state, events)
 }
 
 export default {

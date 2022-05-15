@@ -122,3 +122,28 @@ button.addEventListener("click", handler, false);
 5. Remove all completed items.
 6. Toggle all items as completed or not.
 7. Edit an item.
+
+<br />
+
+### A Basic Event Handling Architecture
+
+**state-render-event loop**
+
+> Initail State ➡️ Render ➡️ Events ➡️ New State ➡️ Render ➡️ Events ➡️ NewState ➡️ Render ...
+
+- **Initial State** : empty todo list
+- **Render**: shows the user an empty list
+- **Event** : the user creates a new item named 'dummy item'
+- **New State**: todo list with on item
+- **Render** : shows the user a list with one item.
+- **Event** : the user deletes the item
+- **New State**: empty todo list
+- **Render** : showing the user an empty list
+
+<br />
+
+### Event Delegation
+
+- have only one event handler, which is attached to the list itself.
+- 모든 버튼에 각각의 이벤트핸들러를 추가하지 않고, 상위 요소에만 이벤트 핸들러를 추가한후 이벤트가 발생한 타겟일 경우에만 이벤트를 실행시킨다.
+- 이벤트 버블링으로 인해 자식 요소에서 발생한 이벤트가 부모 요소까지 전달된다.
