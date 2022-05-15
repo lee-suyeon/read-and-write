@@ -137,3 +137,12 @@ const registry = {
 - registry에서 data-component 속성을 가지고 있는 DOM요소를 찾는다.
 - DOM 요소를 찾으면 child component를 호출한다.
 - child component도 같은 함수로 감싸져있기 때문에 마지막 컴포넌트까지 쉽게 탐색할 수 있다.
+
+### Virtual DOM
+
+- real DOM에 diff algorithm을 이용하여 변경사항만 update
+
+* diff algorithm
+  - **The number of attributes** is different.
+  - At least **one attribute** has changed.
+  - The nodes have no children, and the **textContent** is different.
