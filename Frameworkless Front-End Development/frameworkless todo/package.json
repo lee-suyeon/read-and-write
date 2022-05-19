@@ -8,11 +8,17 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/node": "^17.0.34",
     "typescript": "^4.5.4",
     "vite": "^2.9.9"
   },
   "dependencies": {
     "@types/faker": "^6.6.9",
-    "faker": "^6.6.6"
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "faker": "^6.6.6",
+    "nodemon": "^2.0.16",
+    "standard": "^17.0.0",
+    "uuid": "^8.3.2"
   }
 }
