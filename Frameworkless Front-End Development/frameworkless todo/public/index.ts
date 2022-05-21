@@ -1,8 +1,8 @@
-import todos, { Todos } from './todos';
+import todos, { Todo } from './todos';
 
 const NEW_TODO_TEXT = 'A simple todo Element';
 
-const printResult = (action: string, result: Todos) => {
+const printResult = (action: string, result: Todo) => {
   const time = (new Date()).toTimeString();
   const node = document.createElement('p');
   node.textContent = `${action.toUpperCase()}: ${JSON.stringify(result)} (${time})`;
@@ -22,7 +22,6 @@ const onAddClick = async () => {
 
 const onUpdateClick = async () => {
   const list = await todos.list();
-
   const { id } = list[0];
   const newTodo = {
     id,
