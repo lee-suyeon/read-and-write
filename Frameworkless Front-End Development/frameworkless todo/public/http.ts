@@ -1,27 +1,15 @@
 import { Todo } from './todos';
 
-const setHeaders = (xhr: XMLHttpRequest, headers: Headers) => {
-  Object.entries(headers).forEach(entry => {
-    const [ name, value ] = entry;
-    xhr.setRequestHeader(name, value);
-  })
-}
-
-interface XHR {
-  status: number;
-  responseText: string;
-}
-
 interface Return {
   status: number;
   data: Todo;
 }
 
-const parseResponse = (xhr: XHR): Return => {
-  const { status, responseText } = xhr;
+const parseResponse = async (response) => {
+  const { status } = response;
   let data: Todo;
   if(status !== 204) {
-    data = JSON.parse(responseText);
+    data = await response.json();
   }
   return { status, data }
 }
@@ -37,23 +25,18 @@ interface Params {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
 }
 
-const request = (params: Params): Promise<Return> => {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-
-    const { method = 'GET', url, headers = {}, body } = params;
-    xhr.open(method, url);
-    setHeaders(xhr, headers);
-
-    xhr.send(JSON.stringify(body));
-    xhr.onerror = () => {
-      reject(new Error('HTTP Error'));
-    }
-    xhr.ontimeout = () => {
-      reject(new Error('Timeout Error'));
-    }
-    xhr.onload = () => resolve(parseResponse(xhr));
-  });
+const request = async (params: Params): Promise<Return> => {
+  const { method = 'GET', url, headers = {}, body } = params;
+  const config = {
+    method,
+    headers: new window.Headers(headers),
+    body,
+  }
+  if(body) {
+    config.body = JSON.stringify(body)
+  }
+  const response = await window.fetch(url, config)
+  return parseResponse(response);
 }
 
 const get = async (url: string, headers?: Headers): Promise<Todo> => {

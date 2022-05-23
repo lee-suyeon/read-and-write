@@ -49,3 +49,15 @@ xhr.send(JSON.stringify(body));
 - If the request ends successfully, the `onload` callback is invoked.
 - If the request ends with an error, the `onerror` callback is invoked.
 - If the request times out, the `ontimeout` callback is invoked.
+
+<br />
+
+### Fetch
+
+- created for access to remote resources.
+- purpose : provide a standard definition for many network objects, such as Request or Response.
+- `window.fetch` method
+  - returning a Promise object
+  - resolves a Response object
+
+<br />
